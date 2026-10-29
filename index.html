@@ -1,0 +1,649 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NGL MB Confessions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f5f3;
+  --ink: #171b2a;
+  --mute: #666d7c;
+  --card: #ffffff;
+  --line: #e7e7e7;
+  --red: #ff3f3f;
+  --cyan: #14bfd8;
+  --yellow: #f9d74d;
+  --green: #6cc75c;
+  --soft: #fafafa;
+  --container: 1200px;
+  box-sizing: border-box;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 20px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+a { color: inherit; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+
+.wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+[hidden] { display: none !important; }
+.account-gate {
+  min-height: 100vh;
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 15% 20%, #e9e3ff 0, transparent 38%), #f5f3fa;
+}
+.account-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 16px;
+  color: #1d1d2b;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.account-brand img { width: 42px; height: 42px; object-fit: contain; }
+.account-card {
+  width: min(100%, 576px);
+  padding: 28px 36px;
+  border: 1px solid #ddd7eb;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 18px 60px rgba(38, 29, 74, .09);
+}
+.account-card h1 { margin: 0; text-align: center; font-size: 2.4rem; line-height: 1.2; }
+.account-intro { margin: 8px 0 16px; color: #666d7c; text-align: center; }
+.account-card label { display: block; margin: 10px 0 5px; font-weight: 600; }
+.account-card input { width: 100%; padding: 11px 14px; border: 1px solid #ddd7eb; border-radius: 12px; font: inherit; }
+.btn.account-submit { width: 100%; margin-top: 10px; background: #6041dc; color: #fff; }
+.account-error { min-height: 1.2em; margin: 6px 0 0; color: #c22; font-size: .9rem; }
+.account-error.success { color: #287a32; }
+.account-switch { margin: 10px 0 0; color: #666d7c; text-align: center; }
+.account-switch button { padding: 0; border: 0; background: none; color: #4024b8; font: inherit; font-weight: 700; cursor: pointer; }
+.account-switch button:hover { text-decoration: underline; }
+.account-forgot { margin: 8px 0 0; text-align: right; }
+.account-forgot button { padding: 0; border: 0; background: none; color: #4024b8; font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer; }
+.account-forgot button:hover { text-decoration: underline; }
+.member-name { color: var(--mute); font-size: .9rem; }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 0 16px;
+  border-bottom: 2px solid var(--line);
+}
+
+header .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.08rem;
+  text-decoration: none;
+}
+
+header img {
+  height: 42px;
+  width: auto;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 26px;
+  font-weight: 700;
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  display: inline-block;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.red { background: var(--red); color: #fff; }
+.btn.cyan { background: var(--cyan); color: #06222a; }
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--line);
+}
+.btn.small {
+  padding: 9px 18px;
+  font-size: .92rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 40px;
+  align-items: center;
+  padding: 54px 0 36px;
+}
+
+.hero > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero img {
+  width: min(100%, 420px);
+  justify-self: center;
+  border-radius: 24px;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 10px 24px rgba(17, 20, 35, 0.04);
+}
+
+.hero h1 {
+  width: 100%;
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 1.04;
+  margin: 0 0 16px;
+  font-weight: 900;
+  letter-spacing: -.05em;
+}
+
+.hero h1 > span { display: block; }
+.hero h1 .r { color: var(--red); }
+.hero h1 .y {
+  width: fit-content;
+  max-width: 100%;
+  white-space: nowrap;
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 0 10px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+.hero p {
+  color: var(--mute);
+  margin: 0 0 22px;
+  max-width: 40ch;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+}
+
+.cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.notice {
+  font-size: .92rem;
+  color: var(--mute);
+  margin-top: 12px;
+  min-height: 1.4em;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  margin: 0 0 14px;
+}
+
+.feedhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.post {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  border-left: 8px solid var(--cyan);
+  box-shadow: 0 1px 0 rgba(17, 20, 35, 0.02);
+}
+.post:nth-child(even){ border-left-color: var(--red); }
+.post .meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--mute);
+  font-size: .88rem;
+  margin-bottom: 6px;
+}
+.post .id { font-weight: 800; color: var(--ink); }
+.post-author {
+  color: var(--mute);
+  font-size: .85rem;
+  margin: 2px 0 10px;
+}
+.post p {
+  margin: 0 0 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 1.05rem;
+}
+.react { display: flex; gap: 6px; flex-wrap: wrap; }
+.react button {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  border: 2px solid var(--line);
+  background: var(--soft);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: .95rem;
+}
+.react button.on {
+  border-color: var(--cyan);
+  background: color-mix(in srgb, var(--cyan) 18%, transparent);
+}
+.react b { font-size: .85rem; font-weight: 600; }
+.post-photo {
+  display: block;
+  width: min(100%, 700px);
+  max-height: 650px;
+  margin: 12px 0 16px;
+  border-radius: 14px;
+  object-fit: contain;
+  background: var(--soft);
+}
+.post-admin-actions,
+.post-edit-form,
+.comment-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.post-admin-actions { margin-top: 12px; }
+.post-edit-form { align-items: flex-start; }
+.post-edit-form textarea { flex-basis: 100%; }
+.post-edit-form label:not(.remove-photo-label) { flex-basis: 100%; }
+.post-edit-form input[type="file"] { flex: 1 1 100%; }
+.remove-photo-label { display: inline-flex; align-items: center; gap: 6px; margin: 4px 10px 4px 0; }
+.remove-photo-label input { width: auto; }
+.comments {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.comments h3 { margin: 0 0 8px; font-size: 1rem; }
+.comment-list { list-style: none; margin: 0 0 10px; padding: 0; }
+.comment-list li { padding: 6px 0; overflow-wrap: anywhere; }
+.comment-list .no-comments { color: var(--mute); font-size: .92rem; }
+.comment-form input { flex: 1 1 220px; min-width: 0; }
+.comment-form .btn { white-space: nowrap; }
+.empty {
+  text-align: center;
+  color: var(--mute);
+  padding: 30px;
+  border: 2px dashed var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.35);
+}
+footer {
+  margin: 40px 0 28px;
+  padding-top: 18px;
+  border-top: 2px solid var(--line);
+  color: var(--mute);
+  font-size: .9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.admin {
+  background: var(--soft);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+}
+.admin[hidden],dialog:not([open]){display:none}
+.admin h2{font-size:1.15rem}
+label{display:block;font-weight:600;font-size:.92rem;margin:12px 0 5px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:8px}.row input{flex:1}
+.admin .tag{display:inline-block;background:var(--green);color:#10320a;border-radius:999px;padding:2px 12px;font-size:.85rem;font-weight:600;margin-left:8px;vertical-align:middle}
+dialog{border:0;border-radius:20px;padding:24px;max-width:380px;width:calc(100% - 32px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(10,10,20,.55)}
+.err{color:var(--red);font-size:.9rem;min-height:1.3em;margin:8px 0 0}
+.admins{list-style:none;margin:0;padding:0}.admins li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.del{border:0;background:transparent;color:var(--red);font-weight:600;padding:0}
+
+@media (max-width: 1100px) {
+  .wrap { max-width: 980px; }
+  .hero { gap: 28px; }
+}
+
+@media (max-width: 900px) {
+  .wrap { max-width: 760px; }
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 30px;
+  }
+  .hero img {
+    order: -1;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+  header {
+    padding: 14px 0;
+  }
+  .cta {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.3rem, 10.5vw, 3.8rem);
+  }
+  .hero p { max-width: 100%; }
+  .row {
+    flex-direction: column;
+  }
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .account-card { padding: 24px 22px; }
+  .account-card h1 { font-size: 2rem; }
+  .member-name { display: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(22px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes logo-float {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 63, 63, .18); }
+    50% { box-shadow: 0 0 0 9px rgba(255, 63, 63, 0); }
+  }
+
+  .account-brand { animation: rise-in .65s cubic-bezier(.2,.8,.2,1) both; }
+  .account-brand img { animation: logo-float 5s ease-in-out 1s infinite; }
+  .account-card {
+    animation: rise-in .75s cubic-bezier(.2,.8,.2,1) .1s both;
+    transition: box-shadow .3s ease, transform .3s ease;
+  }
+  .account-card:focus-within {
+    box-shadow: 0 24px 70px rgba(96, 65, 220, .16);
+    transform: translateY(-3px);
+  }
+  header { animation: rise-in .6s cubic-bezier(.2,.8,.2,1) both; }
+  header .brand img { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+  header .brand:hover img { transform: rotate(-8deg) scale(1.08); }
+  .hero > div { animation: rise-in .75s cubic-bezier(.2,.8,.2,1) .12s both; }
+  .hero h1 > span { animation: rise-in .65s cubic-bezier(.2,.8,.2,1) both; }
+  .hero h1 > span:nth-child(2) { animation-delay: .12s; }
+  .hero h1 > span:nth-child(3) { animation-delay: .22s; }
+  .hero h1 .y { transition: transform .25s ease, box-shadow .25s ease; }
+  .hero h1 .y:hover { transform: rotate(-2deg) scale(1.03); box-shadow: 0 8px 18px rgba(249, 215, 77, .35); }
+  .hero img {
+    animation: rise-in .8s cubic-bezier(.2,.8,.2,1) .18s both, logo-float 6s ease-in-out 1.1s infinite;
+    transition: box-shadow .35s ease, transform .35s ease;
+  }
+  .hero img:hover { box-shadow: 0 22px 48px rgba(17, 20, 35, .14); }
+  .cta > * { animation: rise-in .55s cubic-bezier(.2,.8,.2,1) both; }
+  .cta > *:nth-child(2) { animation-delay: .08s; }
+  .cta > *:nth-child(3) { animation-delay: .16s; }
+  .btn {
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, filter .25s ease;
+  }
+  .btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(23, 27, 42, .16);
+    filter: saturate(1.12);
+  }
+  .btn:active { transform: translateY(0) scale(.98); }
+  .feedhead { animation: rise-in .65s cubic-bezier(.2,.8,.2,1) both; }
+  .admin {
+    animation: rise-in .7s cubic-bezier(.2,.8,.2,1) both;
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  .admin:focus-within { border-color: var(--cyan); box-shadow: 0 12px 30px rgba(20, 191, 216, .12); }
+  .post {
+    animation: rise-in .6s cubic-bezier(.2,.8,.2,1) both;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, border-color .28s ease;
+  }
+  .post:nth-child(2) { animation-delay: .07s; }
+  .post:nth-child(3) { animation-delay: .14s; }
+  .post:nth-child(4) { animation-delay: .21s; }
+  .post:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(17, 20, 35, .09); border-color: color-mix(in srgb, var(--cyan) 42%, var(--line)); }
+  .post-photo { animation: rise-in .55s cubic-bezier(.2,.8,.2,1) both; }
+  .comments { transition: border-color .25s ease; }
+  .comment-list li, .admins li {
+    animation: rise-in .4s cubic-bezier(.2,.8,.2,1) both;
+    transition: color .2s ease, transform .2s ease;
+  }
+  .comment-list li:hover, .admins li:hover { color: var(--ink); transform: translateX(3px); }
+  .react button {
+    transition: transform .2s cubic-bezier(.2,.8,.2,1), background .2s ease, border-color .2s ease;
+  }
+  .react button:hover { transform: translateY(-2px) scale(1.08); border-color: var(--cyan); }
+  .react button:active { transform: scale(.94); }
+  .react button.on { animation: glow-pulse .65s ease-out; }
+  input, textarea { transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; }
+  input:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(20, 191, 216, .13); }
+  .empty { animation: rise-in .6s cubic-bezier(.2,.8,.2,1) both; }
+  .notice { transition: color .2s ease, opacity .2s ease; }
+  footer { animation: rise-in .65s cubic-bezier(.2,.8,.2,1) .1s both; }
+  dialog[open] { animation: rise-in .3s cubic-bezier(.2,.8,.2,1) both; }
+  dialog::backdrop { transition: background-color .25s ease; }
+
+  @media (hover: none) {
+    .post:hover, .btn:hover, .react button:hover { transform: none; }
+  }
+}
+</style>
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+<section class="account-gate" id="accountGate" aria-labelledby="accountTitle">
+  <a class="account-brand" href="#top"><img src="nglmb.png" alt=""><span>NGL MB</span></a>
+  <div class="account-card">
+    <button class="btn ghost small theme-toggle account-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span aria-hidden="true">☾</span></button>
+    <h1 id="accountTitle">Welcome</h1>
+    <p class="account-intro" id="accountIntro">Log in or create a member account to continue. Admins can sign in separately.</p>
+    <form id="accountForm">
+      <label for="accountName" id="accountNameLabel" hidden>Name</label>
+      <input id="accountName" type="text" autocomplete="name" placeholder="Your name" maxlength="60" hidden>
+      <label for="accountEmail" id="accountEmailLabel">Email</label>
+      <input id="accountEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+      <label for="accountPassword" id="accountPasswordLabel">Password</label>
+      <input id="accountPassword" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="8" maxlength="72" required>
+      <label for="accountPasswordConfirm" id="accountPasswordConfirmLabel" hidden>Confirm new password</label>
+      <input id="accountPasswordConfirm" type="password" autocomplete="new-password" placeholder="Re-enter your new password" minlength="8" maxlength="72" hidden>
+      <p class="account-error" id="accountError" role="alert" aria-live="polite"></p>
+      <button class="btn account-submit" id="accountSubmit" type="submit">Log in</button>
+    </form>
+    <p class="account-forgot" id="accountForgotWrap"><button id="accountForgot" type="button">Forgot password?</button></p>
+    <p class="account-switch"><span id="accountSwitchPrompt">Don't have an account?</span> <button id="accountSwitch" type="button">Create an account</button></p>
+    <p class="account-switch"><span>Are you an admin?</span> <button id="accountGateLogin" type="button">Admin login</button></p>
+  </div>
+</section>
+<div id="siteContent" hidden>
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="NGL MB Confessions home">
+        <img src="nglmb.png" alt="NGL MB Confessions logo">
+        <span><strong>NGL MB</strong><small>CONFESSIONS</small></span>
+      </a>
+      <label class="search">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+        <input id="search" type="search" placeholder="Search confessions..." aria-label="Search confessions">
+      </label>
+      <div class="header-actions">
+        <span class="member-name" id="memberName"></span>
+        <a class="primary" href="#nglLinks">
+          <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
+          Send anonymously
+        </a>
+        <button class="btn ghost small" id="memberLogoutBtn" hidden>Log out</button>
+        <button class="btn ghost small" id="loginBtn">Admin login</button>
+        <button class="btn ghost small theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span aria-hidden="true">☾</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout" id="top">
+    <aside class="sidebar">
+      <nav class="nav" aria-label="Confession feed">
+        <button class="active" type="button" data-view="home" aria-pressed="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-home"></use></svg>Home feed
+        </button>
+        <button type="button" data-view="popular" aria-pressed="false">
+          <svg class="icon" aria-hidden="true"><use href="#i-heart"></use></svg>Popular
+        </button>
+        <button type="button" data-view="saved" aria-pressed="false">
+          <svg class="icon" aria-hidden="true"><use href="#i-bookmark"></use></svg>Saved stories
+        </button>
+      </nav>
+      <section class="sidebar-note">
+        <strong>A little honesty. A little kindness.</strong>
+        <p>Keep stories anonymous, respect privacy, and leave personal details out.</p>
+        <a href="#nglLinks">Send an anonymous confession</a>
+        <small>© 2026 NGL MB Confessions</small>
+      </section>
+    </aside>
+
+    <main class="main-content" aria-label="Confession feed">
+      <section class="welcome-banner" aria-labelledby="welcomeTitle">
+        <div class="welcome-copy">
+          <p class="eyebrow">A safe space to let it out</p>
+          <h1 id="welcomeTitle">A little honesty.<br><span>A lot of heart.</span></h1>
+          <p>Read what the community is sharing, or choose an admin and send anonymously through their NGL link.</p>
+          <div class="cta" id="nglLinks" aria-label="Choose an admin to confess anonymously">
+            <label class="sr-only" for="adminLinkSelect">Select an admin</label>
+            <select id="adminLinkSelect" aria-label="Select an admin">
+              <option value="">Select an admin</option>
+            </select>
+            <a class="primary" id="confessionLink" hidden target="_blank" rel="noopener noreferrer">
+              <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
+              Send anonymously
+            </a>
+          </div>
+          <p class="notice" id="nglNotice" role="status" aria-live="polite"></p>
+        </div>
+        <div class="welcome-art" aria-hidden="true">
+          <span class="art-orbit orbit-one"></span>
+          <span class="art-orbit orbit-two"></span>
+          <span class="art-heart">♡</span>
+          <img src="nglmb.png" alt="">
+          <span class="art-sparkle sparkle-one">✦</span>
+          <span class="art-sparkle sparkle-two">✧</span>
+        </div>
+      </section>
+
+      <section class="admin" id="adminPanel" hidden aria-labelledby="adminTitle">
+        <div class="feedhead">
+          <h2 id="adminTitle">Admin panel <span class="tag" id="who"></span></h2>
+          <button class="btn ghost small" id="logoutBtn">Log out</button>
+        </div>
+        <label for="nglInput">Your NGL link</label>
+        <div class="row"><input id="nglInput" type="url" placeholder="https://ngl.link/yourusername"><button class="btn cyan" id="saveNgl">Insert link</button></div>
+        <label for="newText">Admin post text (optional if adding a photo)</label>
+        <textarea id="newText" placeholder="Paste the confession you received on NGL"></textarea>
+        <label for="newPhoto">Add a photo (optional, JPG/PNG/GIF/WebP, up to 3 MB)</label>
+        <input id="newPhoto" type="file" accept="image/jpeg,image/png,image/gif,image/webp">
+        <div class="admin-submit"><button class="btn red" id="postBtn">Post confession as admin</button></div>
+        <h2 class="admin-subtitle">Reset your password</h2>
+        <div class="row">
+          <label class="sr-only" for="adminCurrentPassword">Current password</label>
+          <input id="adminCurrentPassword" type="password" autocomplete="current-password" placeholder="Current password">
+          <label class="sr-only" for="adminNewPassword">New password</label>
+          <input id="adminNewPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" placeholder="New password (8+ characters)">
+        </div>
+        <div class="row admin-add-row">
+          <label class="sr-only" for="adminConfirmPassword">Confirm new password</label>
+          <input id="adminConfirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" placeholder="Confirm new password">
+          <button class="btn cyan" id="resetAdminPassword" type="button">Reset password</button>
+        </div>
+        <p class="err" id="adminPasswordMessage" role="status" aria-live="polite"></p>
+        <h2 class="admin-subtitle">Admins</h2>
+        <ul class="admins" id="adminList"></ul>
+        <label for="aName">Add an admin</label>
+        <div class="row"><input id="aName" placeholder="Name" autocomplete="off"><input id="aEmail" type="email" placeholder="Email" autocomplete="off"></div>
+        <div class="row admin-add-row"><input id="aPass" type="password" placeholder="Password (8+ characters)" autocomplete="new-password"><button class="btn cyan" id="addAdmin">Add admin</button></div>
+      </section>
+
+      <section id="feed" aria-labelledby="feedTitle">
+        <div class="feed-heading">
+          <div><p class="eyebrow">Community stories</p><h2 id="feedTitle">Confessions</h2></div>
+          <p class="feed-description">A place to share, listen, and show a little kindness.</p>
+        </div>
+        <div class="toolbar">
+          <div class="tabs" role="group" aria-label="Sort confessions">
+            <button class="tab active" type="button" data-sort="latest" aria-pressed="true">Latest</button>
+            <button class="tab" type="button" data-sort="trending" aria-pressed="false">Trending</button>
+          </div>
+          <span class="feed-count" id="feedCount" aria-live="polite"></span>
+        </div>
+        <div id="list" class="feed" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+  <footer class="site-footer"><span>NGL MB Confessions</span><span>Confessions stay anonymous. Be kind.</span></footer>
+</div>
+
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3z"></path></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"></path></symbol>
+  <symbol id="i-comment" viewBox="0 0 24 24"><path d="M21 11.5a9 9 0 0 1-9 9c-1.5 0-3-.4-4.2-1L3 21l1.5-4.8A9 9 0 1 1 21 11.5Z"></path></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"></path></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"></path></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="m16 16 5 5"></path></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4 20-7ZM11 13 22 2"></path></symbol>
+  <symbol id="i-ghost" viewBox="0 0 24 24"><path d="M5 21V10a7 7 0 0 1 14 0v11l-3.5-3-3.5 3-3.5-3L5 21Z"></path><path d="M9 10v2m6-2v2"></path></symbol>
+</svg>
+
+<dialog id="loginDlg">
+  <h2 style="margin-top:0">Admin login</h2>
+  <div>
+    <label for="em">Email</label><input id="em" type="email" autocomplete="username">
+    <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+    <p class="err" id="err" role="alert"></p>
+    <div style="display:flex;gap:8px;margin-top:10px"><button class="btn red" id="doLogin">Log in</button><button class="btn ghost" id="cancelLogin">Cancel</button></div>
+  </div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
